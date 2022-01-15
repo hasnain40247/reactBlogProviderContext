@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useEffect, useReducer } from "react";
 import {
   Button,
   FlatList,
@@ -11,8 +11,18 @@ import { Context, Provider } from "../context/BlogContext";
 import { Feather } from "@expo/vector-icons";
 
 const IndexScreen = ({navigation}) => {
-  const { state, deleteBlogPost } = useContext(Context);
+  const { state, deleteBlogPost, getBlogPosts } = useContext(Context);
+useEffect(()=>{
+getBlogPosts();
+const listener=navigation.addListener('didFocus',()=>{
+  getBlogPosts();
+})
 
+
+return ()=>{
+  listener.remove()
+}
+},[])
   return (
     <View style={{ flex: 1 }}>
  
